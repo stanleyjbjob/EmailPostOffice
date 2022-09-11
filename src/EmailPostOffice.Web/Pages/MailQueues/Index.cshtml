@@ -1,0 +1,104 @@
+@page
+@using Microsoft.AspNetCore.Authorization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using EmailPostOffice.Permissions
+@using EmailPostOffice.Web.Pages.MailQueues
+@using EmailPostOffice.Web.Menus
+@using Microsoft.AspNetCore.Mvc.Localization
+@using EmailPostOffice.Localization
+@inject IHtmlLocalizer<EmailPostOfficeResource> L
+@inject IAuthorizationService Authorization
+@model IndexModel
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.Title = L["MailQueues"].Value;
+    PageLayout.Content.MenuItemName = EmailPostOfficeMenus.MailQueues;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/MailQueues/index.js" />
+}
+
+@section content_toolbar {
+    @if (await Authorization.IsGrantedAsync(EmailPostOfficePermissions.MailQueues.Create))
+    {
+        <abp-button id="NewMailQueueButton" text="@L["NewMailQueue"].Value" icon="plus" button-type="Primary" />
+    }
+}
+
+<abp-card>
+    <abp-card-body>
+		<abp-row class="mb-3">
+            <abp-column size-md="_12">
+                <form id="SearchForm" autocomplete="off">
+                    <div class="input-group">
+                        <input class="form-control page-search-filter-text" id="FilterText" placeholder="@L["Search"]"/>
+                        <abp-button button-type="Primary" type="submit" icon="search"/>
+                    </div>
+                </form>
+            </abp-column>
+            <abp-column size-md="_12" class="mt-3">
+                <a href="javascript:;" id="AdvancedFilterSectionToggler" class="text-decoration-none">@L["SeeAdvancedFilters"]</a>
+            </abp-column>
+        </abp-row>
+
+        <abp-row id="AdvancedFilterSection" style="display: none;">
+            <abp-column size="_3">
+                <abp-input asp-for="RecipientFilter" label="@L["Recipient"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="RecipientNameFilter" label="@L["RecipientName"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="SenderFilter" label="@L["Sender"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="SenderNameFilter" label="@L["SenderName"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="SubjectFilter" label="@L["Subject"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="ContentFilter" label="@L["Content"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="RetryFilterMin" label="@L["MinRetry"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="RetryFilterMax" label="@L["MaxRetry"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-select asp-for="SuccessFilter" label="@L["Success"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-select asp-for="SuspendFilter" label="@L["Suspend"].Value" />
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="FreezeTimeFilterMin" label="@L["MinFreezeTime"].Value" type="date"/>
+            </abp-column>
+            <abp-column size="_3">
+                <abp-input asp-for="FreezeTimeFilterMax" label="@L["MaxFreezeTime"].Value" type="date"/>
+            </abp-column>
+        </abp-row>
+
+        <abp-table striped-rows="true" id="MailQueuesTable">
+            <thead>
+				<tr>
+					<th>@L["Actions"]</th>
+					<th>@L["Recipient"]</th>
+					<th>@L["RecipientName"]</th>
+					<th>@L["Sender"]</th>
+					<th>@L["SenderName"]</th>
+					<th>@L["Subject"]</th>
+					<th>@L["Content"]</th>
+					<th>@L["Retry"]</th>
+					<th>@L["Success"]</th>
+					<th>@L["Suspend"]</th>
+					<th>@L["FreezeTime"]</th>
+
+				</tr>
+            </thead>
+        </abp-table>
+    </abp-card-body>
+</abp-card>
