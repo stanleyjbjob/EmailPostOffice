@@ -51,6 +51,20 @@ using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Identity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.Gdpr.Web;
+using Volo.Abp.Account;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.AuditLogging;
+using Volo.Abp.Gdpr;
+using Volo.Abp.IdentityServer.ApiResource.Dtos;
+using Volo.Abp.IdentityServer.ApiScope.Dtos;
+using Volo.Abp.IdentityServer.Client.Dtos;
+using Volo.Abp.IdentityServer.IdentityResource.Dtos;
+using Volo.Abp.LanguageManagement.Dto;
+using Volo.Abp.TextTemplateManagement.TextTemplates;
+using Volo.Abp.Users;
+using Volo.Saas.Host.Dtos;
+using EmailPostOffice.MailQueues;
+using Volo.Abp.Content;
 
 namespace EmailPostOffice.Web;
 
@@ -226,18 +240,48 @@ public class EmailPostOfficeWebModule : AbpModule
 
     private void ConfigureSwaggerServices(IServiceCollection services)
     {
-        // Add OpenAPI/Swagger document
-        services.AddOpenApiDocument(configure =>
-        {
-            //configure.SchemaNameGenerator = new CustomSchemaNameGenerator();
-            configure.TypeNameGenerator = new CustomTypeNameGenerator();
-        });
         services.AddAbpSwaggerGen(
             options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "EmailPostOffice API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
+                options.DocumentFilter<HideIdentityUserFilter>();
+
+                options.MapType<ListResultDto<IdentityRoleDto>>(() => new OpenApiSchema { Type = "IdentityRoleDtoResultList" });
+                options.MapType<ListResultDto<ClaimTypeDto>>(() => new OpenApiSchema { Type = "ClaimTypeDtoResultList" });
+                options.MapType<PagedResultDto<IdentityRoleDto>>(() => new OpenApiSchema { Type = "IdentityRoleDtoPageResultList" });
+                options.MapType<PagedResultDto<ClaimTypeDto>>(() => new OpenApiSchema { Type = "ClaimTypeDtoPageResultList" });
+                options.MapType<PagedResultDto<IdentitySecurityLogDto>>(() => new OpenApiSchema { Type = "IdentitySecurityLogDtoPageResultList" });
+
+                options.MapType<PagedResultDto<ClientWithDetailsDto>>(() => new OpenApiSchema { Type = "ClientWithDetailsDtoPageResultList" });
+                options.MapType<PagedResultDto<ApiScopeWithDetailsDto>>(() => new OpenApiSchema { Type = "ApiScopeWithDetailsDtoPageResultList" });
+                options.MapType<PagedResultDto<ApiResourceWithDetailsDto>>(() => new OpenApiSchema { Type = "ApiResourceWithDetailsDtoPageResultList" });
+
+
+                options.MapType<PagedResultDto<IdentityUserDto>>(() => new OpenApiSchema { Type = "IdentityUserDtoPageResultList" });
+                options.MapType<PagedResultDto<EntityChangeDto>>(() => new OpenApiSchema { Type = "EntityChangeDtoPageResultList" });
+                options.MapType<PagedResultDto<AuditLogDto>>(() => new OpenApiSchema { Type = "AuditLogDtoPageResultList" });
+                options.MapType<PagedResultDto<EditionDto>>(() => new OpenApiSchema { Type = "EditionDtoPageResultList" });
+
+                options.MapType<PagedResultDto<GdprRequestDto>>(() => new OpenApiSchema { Type = "GdprRequestDtoPageResultList" });
+                options.MapType<PagedResultDto<LanguageTextDto>>(() => new OpenApiSchema { Type = "LanguageTextDtoPageResultList" });
+                options.MapType<PagedResultDto<LanguageDto>>(() => new OpenApiSchema { Type = "LanguageDtoPageResultList" });
+                options.MapType<ListResultDto<LanguageDto>>(() => new OpenApiSchema { Type = "LanguageDtoResultList" });
+                options.MapType<PagedResultDto<OrganizationUnitWithDetailsDto>>(() => new OpenApiSchema { Type = "OrganizationUnitWithDetailsDtoPageResultList" });
+                options.MapType<ListResultDto<OrganizationUnitWithDetailsDto>>(() => new OpenApiSchema { Type = "OrganizationUnitWithDetailsDtoResultList" });
+                options.MapType<PagedResultDto<IdentityResourceWithDetailsDto>>(() => new OpenApiSchema { Type = "IdentityResourceWithDetailsDtoPageResultList" });
+
+                options.MapType<PagedResultDto<SaasTenantDto>>(() => new OpenApiSchema { Type = "SaasTenantDtoPageResultList" });
+                options.MapType<PagedResultDto<TemplateDefinitionDto>>(() => new OpenApiSchema { Type = "TemplateDefinitionDtoPageResultList" });
+                options.MapType<PagedResultDto<LinkUserDto>>(() => new OpenApiSchema { Type = "LinkUserDtoPageResultList" });
+                options.MapType<PagedResultDto<UserData>>(() => new OpenApiSchema { Type = "UserDataPageResultList" });
+                options.MapType<ListResultDto<LinkUserDto>>(() => new OpenApiSchema { Type = "LinkUserDtoResultList" });
+                options.MapType<ListResultDto<UserData>>(() => new OpenApiSchema { Type = "UserDataResultList" });
+
+                options.MapType<ListResultDto<MailQueueDto>>(() => new OpenApiSchema { Type = "MailQueueDtoResultList" });
+                options.MapType<PagedResultDto<MailQueueDto>>(() => new OpenApiSchema { Type = "MailQueueDtoPageResultList" });
+                
             }
         );
     }
@@ -313,8 +357,7 @@ public class EmailPostOfficeWebModule : AbpModule
         app.UseUnitOfWork();
         app.UseIdentityServer();
         app.UseAuthorization();
-        //app.UseSwagger();
-        NSwagApplicationBuilderExtensions.UseSwagger(app);
+        app.UseSwagger();
         app.UseAbpSwaggerUI(options =>
         {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "EmailPostOffice API");
