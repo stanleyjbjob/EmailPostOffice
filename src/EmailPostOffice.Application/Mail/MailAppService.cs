@@ -1,4 +1,5 @@
 ﻿using EmailPostOffice.MailQueues;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace EmailPostOffice.Mail
             _backgroundJobManager = backgroundJobManager;
             _mailQueuesAppService = mailQueuesAppService;
         }
-        public async Task<string> SendAsync(EmailSendingArgs emailSendingArgs)
+        public async Task<IAsyncResult> SendAsync(EmailSendingArgs emailSendingArgs)
         {
             var mail = new MailQueueCreateDto
             {
@@ -37,7 +38,8 @@ namespace EmailPostOffice.Mail
             var result = await _mailQueuesAppService.CreateAsync(mail);
 
             emailSendingArgs.MailQueueID = result.Id;
-            return await _backgroundJobManager.EnqueueAsync(emailSendingArgs);
+            var result1 = await _backgroundJobManager.EnqueueAsync(emailSendingArgs);
+            return Task.FromResult(result1);    
         }
     }
 }

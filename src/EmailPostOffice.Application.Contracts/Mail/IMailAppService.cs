@@ -8,6 +8,6 @@ namespace EmailPostOffice.Mail
 {
     public interface IMailAppService: IApplicationService
     {
-        Task<string> SendAsync(EmailSendingArgs emailSendingArgs);
+        Task<IAsyncResult> SendAsync(EmailSendingArgs emailSendingArgs);
     }
 }

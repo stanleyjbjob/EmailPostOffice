@@ -8,7 +8,6 @@
   "BaseClass": "FullAuditedAggregateRoot",
   "PrimaryKeyType": "Guid",
   "IsMultiTenant": true,
-  "CheckConcurrency": true,
   "ShouldCreateUserInterface": true,
   "ShouldCreateBackend": true,
   "ShouldAddMigration": true,
@@ -22,7 +21,6 @@
       "EnumType": "",
       "EnumNamespace": "",
       "EnumAngularImport": "shared/enums",
-      "EnumFilePath": null,
       "IsNullable": false,
       "IsRequired": true,
       "MinLength": null,
@@ -32,8 +30,7 @@
       "Regex": "",
       "EmailValidation": true,
       "EnumValues": null,
-      "IsSelected": true,
-      "OrdinalIndex": 0
+      "IsSelected": true
     },
     {
       "Id": "84dbc68a-7c22-4507-8ace-f1553a0bf67e",
@@ -42,7 +39,6 @@
       "EnumType": "",
       "EnumNamespace": "",
       "EnumAngularImport": "shared/enums",
-      "EnumFilePath": null,
       "IsNullable": false,
       "IsRequired": false,
       "MinLength": null,
@@ -52,8 +48,7 @@
       "Regex": "",
       "EmailValidation": false,
       "EnumValues": null,
-      "IsSelected": true,
-      "OrdinalIndex": 0
+      "IsSelected": true
     },
     {
       "Id": "f8a48673-ed2c-4fbb-8ee5-062e6c345600",
@@ -62,7 +57,6 @@
       "EnumType": "",
       "EnumNamespace": "",
       "EnumAngularImport": "shared/enums",
-      "EnumFilePath": null,
       "IsNullable": false,
       "IsRequired": true,
       "MinLength": null,
@@ -72,8 +66,7 @@
       "Regex": "",
       "EmailValidation": true,
       "EnumValues": null,
-      "IsSelected": true,
-      "OrdinalIndex": 0
+      "IsSelected": true
     },
     {
       "Id": "57cdb262-e323-4845-8e0f-254419a61a41",
@@ -82,7 +75,6 @@
       "EnumType": "",
       "EnumNamespace": "",
       "EnumAngularImport": "shared/enums",
-      "EnumFilePath": null,
       "IsNullable": false,
       "IsRequired": false,
       "MinLength": null,
@@ -92,8 +84,7 @@
       "Regex": "",
       "EmailValidation": false,
       "EnumValues": null,
-      "IsSelected": true,
-      "OrdinalIndex": 0
+      "IsSelected": true
     },
     {
       "Id": "d535d8c3-3752-4947-b308-8799210232eb",
@@ -102,7 +93,6 @@
       "EnumType": "",
       "EnumNamespace": "",
       "EnumAngularImport": "shared/enums",
-      "EnumFilePath": null,
       "IsNullable": false,
       "IsRequired": true,
       "MinLength": null,
@@ -112,8 +102,7 @@
       "Regex": "",
       "EmailValidation": false,
       "EnumValues": null,
-      "IsSelected": true,
-      "OrdinalIndex": 0
+      "IsSelected": true
     },
     {
       "Id": "5290047a-d1d6-462b-b34f-2fcd74de717b",
@@ -122,7 +111,6 @@
       "EnumType": "",
       "EnumNamespace": "",
       "EnumAngularImport": "shared/enums",
-      "EnumFilePath": null,
       "IsNullable": false,
       "IsRequired": true,
       "MinLength": null,
@@ -132,8 +120,7 @@
       "Regex": "",
       "EmailValidation": false,
       "EnumValues": null,
-      "IsSelected": true,
-      "OrdinalIndex": 0
+      "IsSelected": true
     },
     {
       "Id": "d889d1c4-6831-4cb8-b8fa-38d5c66ef269",
@@ -142,7 +129,6 @@
       "EnumType": "",
       "EnumNamespace": "",
       "EnumAngularImport": "shared/enums",
-      "EnumFilePath": null,
       "IsNullable": false,
       "IsRequired": false,
       "MinLength": null,
@@ -152,8 +138,7 @@
       "Regex": "",
       "EmailValidation": false,
       "EnumValues": null,
-      "IsSelected": true,
-      "OrdinalIndex": 0
+      "IsSelected": true
     },
     {
       "Id": "fecac45c-7166-44ce-8868-b6e08d4509b0",
@@ -162,7 +147,6 @@
       "EnumType": "",
       "EnumNamespace": "",
       "EnumAngularImport": "shared/enums",
-      "EnumFilePath": null,
       "IsNullable": false,
       "IsRequired": false,
       "MinLength": null,
@@ -172,8 +156,7 @@
       "Regex": "",
       "EmailValidation": false,
       "EnumValues": null,
-      "IsSelected": true,
-      "OrdinalIndex": 0
+      "IsSelected": true
     },
     {
       "Id": "d5452ac5-0f0a-43a3-93fe-3a38bdc5321e",
@@ -182,7 +165,6 @@
       "EnumType": "",
       "EnumNamespace": "",
       "EnumAngularImport": "shared/enums",
-      "EnumFilePath": null,
       "IsNullable": false,
       "IsRequired": false,
       "MinLength": null,
@@ -192,8 +174,7 @@
       "Regex": "",
       "EmailValidation": false,
       "EnumValues": null,
-      "IsSelected": true,
-      "OrdinalIndex": 0
+      "IsSelected": true
     },
     {
       "Id": "0cba4c71-ed48-4a26-822f-3664aee0f9fa",
@@ -202,7 +183,6 @@
       "EnumType": "",
       "EnumNamespace": "",
       "EnumAngularImport": "shared/enums",
-      "EnumFilePath": null,
       "IsNullable": false,
       "IsRequired": false,
       "MinLength": null,
@@ -212,8 +192,7 @@
       "Regex": "",
       "EmailValidation": false,
       "EnumValues": null,
-      "IsSelected": true,
-      "OrdinalIndex": 0
+      "IsSelected": true
     }
   ],
   "NavigationProperties": [],

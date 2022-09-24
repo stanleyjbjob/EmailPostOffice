@@ -41,7 +41,7 @@ namespace EmailPostOffice.Mail
                 args.Body
             );
 
-            var mail = await _mailQueueRepository.GetAsync(args.MailQueueID.Value);
+            var mail = await _mailQueueRepository.GetAsync(args.MailQueueID);
             mail.Success = true;
 
             await _mailQueueRepository.UpdateAsync(mail);

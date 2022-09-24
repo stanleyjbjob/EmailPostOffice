@@ -11,6 +11,6 @@ namespace EmailPostOffice.Mail
         public string EmailAddress { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        public Guid? MailQueueID { get; set; }
+        public Guid MailQueueID { get; set; }
     }
 }
