@@ -68,6 +68,7 @@ using Volo.Abp.Content;
 using static EmailPostOffice.Controllers.TestJbhrController;
 using Microsoft.Extensions.Logging.Console;
 using Serilog;
+using Autofac.Core;
 
 namespace EmailPostOffice.Web;
 
@@ -111,11 +112,7 @@ public class EmailPostOfficeWebModule : AbpModule
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
-        context.Services.Configure<LoggerConfiguration>(option =>
-        {
-            option.WriteTo.File(string.Format("logs{0}.txt", DateTime.Today.ToShortDateString()));
-        }
-        );
+
         ConfigureBundles();
         ConfigureUrls(configuration);
         ConfigurePages(configuration);
