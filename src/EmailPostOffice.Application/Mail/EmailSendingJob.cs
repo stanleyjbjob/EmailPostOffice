@@ -5,12 +5,16 @@ using EmailPostOffice.MailQueues;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Emailing;
+using Volo.Abp.Emailing.Smtp;
 using Volo.Abp.ObjectMapping;
+using Volo.Abp.Settings;
+using Volo.Abp.Users;
 
 namespace EmailPostOffice.Mail
 {
@@ -19,29 +23,26 @@ namespace EmailPostOffice.Mail
     {
         private readonly IEmailSender _emailSender;
         private readonly IMailQueueRepository _mailQueueRepository;
-        private readonly IMapper _mapper;
 
         public EmailSendingJob(IEmailSender emailSender, IMailQueueRepository mailQueueRepository)
         {
             _emailSender = emailSender;
             _mailQueueRepository = mailQueueRepository;
         }
-        public EmailSendingJob(IEmailSender emailSender, IMailQueueRepository mailQueueRepository, IMapper mapper)
-        {
-            _emailSender = emailSender;
-            _mailQueueRepository = mailQueueRepository;
-            _mapper = mapper;
-        }
 
         public override async Task ExecuteAsync(EmailSendingArgs args)
         {
-            await _emailSender.SendAsync(
-                args.EmailAddress,
-                args.Subject,
-                args.Body
-            );
+            var mailQueue =await _mailQueueRepository.GetAsync(p=>p.Id== args.MailQueueID);
 
-            var mail = await _mailQueueRepository.GetAsync(args.MailQueueID);
+            var msg = new MailMessage();
+            msg.Subject = args.Subject;
+            msg.Body = args.Body;
+            msg.Sender = new MailAddress(mailQueue.Sender,mailQueue.SenderName);
+            msg.To.Add(new MailAddress(mailQueue.Recipient, mailQueue.Recipient));
+            //await _smtpEmailSender.SendAsync(msg);
+            await _emailSender.SendAsync(msg, true);
+
+            var mail = await _mailQueueRepository.GetAsync(args.MailQueueID.Value);
             mail.Success = true;
 
             await _mailQueueRepository.UpdateAsync(mail);

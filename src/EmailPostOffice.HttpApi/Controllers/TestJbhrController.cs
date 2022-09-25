@@ -1,7 +1,11 @@
 ﻿using EmailPostOffice.Localization;
 using EmailPostOffice.Mail;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace EmailPostOffice.Controllers;
@@ -15,10 +19,13 @@ public class TestJbhrController : Controller
     {
         //_mailAppService = mailAppService;
     }
-    [HttpPost("test132")]
-    public async Task<string> test132(string test)
+    [HttpPost("TestApi")]
+    public async Task<TestResultDto> test132(string test)
     {
-       return "OK";
-       
+        var result = new TestResultDto();
+        result.Result = test;
+        return await Task.FromResult(result);
+
     }
+  
 }

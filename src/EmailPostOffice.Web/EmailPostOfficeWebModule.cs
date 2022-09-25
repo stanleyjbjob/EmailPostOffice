@@ -65,6 +65,9 @@ using Volo.Abp.Users;
 using Volo.Saas.Host.Dtos;
 using EmailPostOffice.MailQueues;
 using Volo.Abp.Content;
+using static EmailPostOffice.Controllers.TestJbhrController;
+using Microsoft.Extensions.Logging.Console;
+using Serilog;
 
 namespace EmailPostOffice.Web;
 
@@ -108,7 +111,11 @@ public class EmailPostOfficeWebModule : AbpModule
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
-
+        context.Services.Configure<LoggerConfiguration>(option =>
+        {
+            option.WriteTo.File(string.Format("logs{0}.txt", DateTime.Today.ToShortDateString()));
+        }
+        );
         ConfigureBundles();
         ConfigureUrls(configuration);
         ConfigurePages(configuration);
@@ -280,8 +287,9 @@ public class EmailPostOfficeWebModule : AbpModule
                 options.MapType<ListResultDto<UserData>>(() => new OpenApiSchema { Type = "UserDataResultList" });
 
                 options.MapType<ListResultDto<MailQueueDto>>(() => new OpenApiSchema { Type = "MailQueueDtoResultList" });
-                options.MapType<PagedResultDto<MailQueueDto>>(() => new OpenApiSchema { Type = "MailQueueDtoPageResultList" });
-                
+                options.MapType<PagedResultDto<MailQueueDto>>(() => new OpenApiSchema { Type = "MailQueueDtoPageResultList" });                
+                //options.MapType<TestResult>(() => new OpenApiSchema { Type = "JBHR.TestResult" });
+                //options.MapType<TestResultDto>(() => new OpenApiSchema { Type = "TestResultDto" });
             }
         );
     }

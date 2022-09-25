@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmailPostOffice.MailQueues;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,6 @@ namespace EmailPostOffice.Mail
 {
     public interface IMailAppService: IApplicationService
     {
-        Task<IAsyncResult> SendAsync(EmailSendingArgs emailSendingArgs);
+        Task<MailQueueDto> SendAsync(EmailSendingArgs emailSendingArgs);
     }
 }

@@ -8,9 +8,13 @@ namespace EmailPostOffice.Mail
 {
     public class EmailSendingArgs
     {
+        public string Name { get; set; }
         public string EmailAddress { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        public Guid MailQueueID { get; set; }
+
+        public List<Guid> AttachmentList { get; set; }
+        public DateTime? FreezeTime { get; set; }
+        public Guid? MailQueueID { get; set; }
     }
 }
